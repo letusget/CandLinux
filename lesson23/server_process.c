@@ -46,7 +46,8 @@ int main()
     //回调函数
     act.sa_handler=recyleChild;
     //注册信号捕捉
-    sigaction(SIGCHLD,&act,NULL);    
+    sigaction(SIGCHLD,&act,NULL);   
+     
     //创建socket 套接字通信
     int lfd = socket(PF_INET,SOCK_STREAM,0);
     if(lfd==-1)
