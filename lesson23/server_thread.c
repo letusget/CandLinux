@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <pthread.h>
 
 int main()
 {
@@ -38,7 +39,8 @@ int main()
     //循环等待 客户端连接，一旦有客户端连接，就创建一个子线程 进行通信
     while (1)
     {
-        /* code */
+        
+        
     }
     
 
