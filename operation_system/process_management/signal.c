@@ -1,3 +1,80 @@
+// #include <unistd.h>
+// #include <sys/types.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <signal.h>
+
+// pid_t pid;
+
+// void myKill(int num)
+// {
+//     //杀死子进程
+//     for(int i=0;i<2;i++)
+//     {
+//         kill(pid,SIGINT);
+//     }
+//     printf("信号编号: %d\n",num);
+// }
+
+// void myPrint(int num)
+// {
+//     printf("kill child OK\n");
+//     //wait(NULL);
+//     exit(1);
+// }
+
+// // void beKill(int num)
+// // {
+
+// // }
+// int main()
+// {
+//     //定时3S
+//     alarm(3);
+
+    
+//     for(int i=0;i<2;i++)
+//     {
+//         pid=fork();
+
+//         //防止重复创建子进程
+//         if(pid==0)
+//         {
+//             break;
+//         }
+//     }
+
+
+//     if(pid>0)
+//     {
+//         printf("parent process: %d\n",getpid());
+//         sleep(1);
+
+//         //捕捉中断信号，杀死子进程
+//         signal(SIGALRM,myKill);
+//         //捕捉子进程被杀死
+//         //signal(SIGCHLD,myPrint);
+//         struct sigaction act;
+//         act.sa_flags=0;
+//         act.sa_handler=myPrint;
+//         sigemptyset(&act.sa_mask);
+//         sigaction(SIGCHLD,&act,NULL);
+
+
+//         printf("\nend\n");
+//     }
+//     else if(pid==0)
+//     {
+//         printf("child process: %d\n",getpid());
+//         //signal(SIGKILL,beKill);
+//         printf("child be killed!\n");
+//     }
+
+
+
+//     return 0;
+// }
+
 #include <stdio.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -66,3 +143,4 @@ int main()
     }
 	return 0;
 }
+
