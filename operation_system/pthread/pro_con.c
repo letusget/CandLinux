@@ -6,7 +6,8 @@
 //创建互斥量
 pthread_mutex_t mutex;
 
-struct Node{
+struct Node
+{
     int num;
     struct Node* next;
 };
@@ -16,6 +17,7 @@ struct Node* head=NULL;
 
 void * producer(void* arg)
 {
+    sleep(1);
     //不断创建新节点，添加到链表中
     while (1)
     {
@@ -39,6 +41,7 @@ void * producer(void* arg)
 
 void * customer(void * arg)
 {
+    sleep(1);
     while (1)
     {
         pthread_mutex_lock(&mutex);
