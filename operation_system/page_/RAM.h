@@ -9,7 +9,8 @@
 using std::list;
 using std::vector;
 
-class RAM {
+class RAM 
+{
   private:
     int SIZE;
     list<Page> pages;
@@ -26,7 +27,8 @@ class RAM {
     void setPage(int index, Page p);
     void clear();
 
-    friend std::ostream &operator<<(std::ostream &os, const RAM &ram) {
+    friend std::ostream &operator<<(std::ostream &os, const RAM &ram) 
+    {
         std::cout << "RAM : " << std::endl;
         for (Page i : ram.getPage()) {
             os << i << " ";
@@ -34,6 +36,7 @@ class RAM {
         os << std::endl;
         return os;
     }
+
     RAM operator=(RAM obj) { pages = obj.pages;
         SIZE = obj.SIZE;
         return *this;
@@ -46,14 +49,16 @@ RAM::~RAM() {}
 
 int RAM::getCurSize() { return pages.size(); }
 
-vector<Page> RAM::getPage() const {
+vector<Page> RAM::getPage() const 
+{
     // std::cout << "!!!SIZE  = = " << pages.size() << std::endl;
     return vector<Page>(pages.begin(), pages.end());
 }
 
 list<Page> &RAM::asList() { return this->pages; }
 
-void RAM::setPage(int index, Page page) {
+void RAM::setPage(int index, Page page) 
+{
     if(getCurSize()<SIZE){
         pages.push_back(page);
         // std::cout << "add " << page << std::endl;

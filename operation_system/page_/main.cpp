@@ -67,13 +67,15 @@ void *consumer(void *num) {
 }
 
 // main manager
-class Master {
+class Master 
+{
   private:
     pthread_t pid, cid;
     int choose;
 
   public:
-    Master(int choose) {
+    Master(int choose) 
+    {
         this->choose = choose;
         func.push_back(f1);
         func.push_back(f2);
@@ -88,7 +90,8 @@ class Master {
         sem_destroy(&pro_num);
         pthread_mutex_destroy(&mutex);
     }
-    void init() {
+    void init() 
+    {
         std::cout << "In order storage there are 400 orders need to get page, "
                      "they are :"
                   << std::endl
@@ -102,7 +105,8 @@ class Master {
         pthread_join(pid, NULL);
         pthread_join(cid, NULL);
     }
-    void getResult() {
+    void getResult() 
+    {
         std::cout << std::endl << std::endl;
         switch (choose) {
         case 0:
@@ -124,10 +128,13 @@ class Master {
     }
 };
 
-int main() {
+int main() 
+{
+    //种子数
     srand((unsigned)time(NULL));
 
-    for (int i = 0; i < NUM; i++) {
+    for (int i = 0; i < NUM; i++) 
+    {
         Page p(rand() % NUM / 10);
         order.push_back(p);
     }
@@ -137,14 +144,19 @@ int main() {
               << "RAM size = " << p.get_RAM_Size() << std::endl
               << "you have -1 - 3 to choose" << std::endl
               << std::endl;
+
     showMessage();
 
     Master *m;
-    while (std::cin >> choose) {
-        if (choose < -1 || choose > 3) {
+    while (std::cin >> choose) 
+    {
+        if (choose < -1 || choose > 3) 
+        {
             std::cerr << "error choose" << std::endl;
             exit(0);
-        } else if (choose == -1) {
+        } 
+        else if (choose == -1) 
+        {
             int newSize;
             std::cout << "new Size" << std::endl;
             std::cin >> newSize;

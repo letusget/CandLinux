@@ -10,7 +10,8 @@
 using std::pair;
 using std::vector;
 
-class PageManager {
+class PageManager 
+{
   private:
     RAM ram;           //RAM
     vector<Page> order; // order_storage
@@ -29,14 +30,17 @@ class PageManager {
     bool CLOCK(int i);
     void clear();
 };
+
 PageManager::PageManager() { next(); }
 
-PageManager::PageManager(vector<Page> order){
+PageManager::PageManager(vector<Page> order)
+{
     this->order = order;
     next();
 }
 
-PageManager::PageManager(const PageManager &obj){
+PageManager::PageManager(const PageManager &obj)
+{
     ram = obj.ram;
     order = obj.order;
     next();
@@ -46,7 +50,8 @@ void PageManager::clear() { ram.clear(); }
 
 PageManager::~PageManager() {}
 
-void PageManager::next() {
+void PageManager::next() 
+{
     vector<pair<int, int>> pre; //保存已访问过的<pagenum,postion>
     int order_size = order.size();
     for (int i = order_size - 1; i >= 0; i--) {
@@ -72,7 +77,8 @@ void PageManager::next() {
     // std::cout << std::endl;
 }
 
-bool PageManager::OPT(int i) {
+bool PageManager::OPT(int i) 
+{
     // init next
     bool flag = false;
     int order_size = order.size();
@@ -104,20 +110,27 @@ bool PageManager::OPT(int i) {
     return flag;
 }
 
-bool PageManager::FIFO(int i) {
+bool PageManager::FIFO(int i) 
+{
     // std::copy(std::begin(order), std::end(order),
     //           std::ostream_iterator<Page>(std::cout, " "));
     bool ret = false;
     // for (int i = 0; i < order.size(); i++) {
     vector<Page> pages = ram.getPage();
     auto p = std::find(pages.begin(), pages.end(), order.at(i));
-    if (p != pages.end()) {
+    if (p != pages.end()) 
+    {
         // found
         ;
-    } else {
-        if (ram.getCurSize() < ram.getSIZE()) {
+    } 
+    else 
+    {
+        if (ram.getCurSize() < ram.getSIZE()) 
+        {
             ram.asList().push_back(order.at(i));
-        } else {
+        } 
+        else 
+        {
 
             auto max = std::max_element(
                 pages.begin(), pages.end(),
@@ -136,7 +149,8 @@ bool PageManager::FIFO(int i) {
     return ret;
 }
 
-bool PageManager::LRU(int i) {
+bool PageManager::LRU(int i) 
+{
     // std::copy(std::begin(order), std::end(order),
     //           std::ostream_iterator<Page>(std::cout, " "));
     bool flag = false;
@@ -145,20 +159,26 @@ bool PageManager::LRU(int i) {
     auto p = std::find_if(arr.begin(), arr.end(), [page](Page &obj) {
         return page.pagenum == obj.pagenum;
     });
-    if (p == arr.end()) {
+    if (p == arr.end()) 
+    {
         // not found
         flag = true;
-        if (ram.getCurSize() <ram.getSIZE()) {
+        if (ram.getCurSize() <ram.getSIZE()) 
+        {
             ram.asList().push_back(order.at(i));
             // std::cout << "add " << order.at(i) << std::endl;
-        } else {
+        } 
+        else 
+        {
             // std::cout << "remove " << *ram.asList().begin() << std::endl;
             ram.asList().erase(ram.asList().begin());
             ram.asList().push_back(order.at(i));
             // std::cout << "push_back " << order.at(i) << std::endl;
         }
 		return true;
-    } else {
+    } 
+    else 
+    {
         // found
         Page temp = *p;
         auto &list = ram.asList();
@@ -171,7 +191,8 @@ bool PageManager::LRU(int i) {
     // std::cout << ram << std::endl;
 }
 
-bool PageManager::CLOCK(int i) {
+bool PageManager::CLOCK(int i) 
+{
     // std::copy(std::begin(order), std::end(order),
     //           std::ostream_iterator<Page>(std::cout, " "));
     bool flag = false;
@@ -180,53 +201,63 @@ bool PageManager::CLOCK(int i) {
     auto p = std::find_if(arr.begin(), arr.end(), [page](Page &obj) {
         return page.pagenum == obj.pagenum;
     });
-    if (p == arr.end()) {
+    if (p == arr.end()) 
+    {
         // not found
         flag = true;
-        if (ram.getCurSize() < ram.getSIZE()) {
+        if (ram.getCurSize() < ram.getSIZE()) 
+        {
             ram.asList().push_back(order.at(i));
             // std::cout << "add " << order.at(i) << std::endl;
-        } else {
+        } 
+        else 
+        {
             auto &list = ram.asList();
             auto q =
                 std::find_if(list.begin(), list.end(), [](const Page page) {
                     return page.visited == false;
                 });
-            // TODO: why this is not working
 
-            // std::for_each(list.begin(), list.end(), [&](Page &page) {
-            //     if (page.visited == true)
-            //         page.visited ==false;
-            // });
-            for (auto &i : list) {
-                if (i.visited == true) {
+            
+            for (auto &i : list) 
+            {
+                if (i.visited == true) 
+                {
                     i.visited = false;
                 }
             }
-            if (q != list.end()) {
+            if (q != list.end()) 
+            {
                 // found
                 // std::cout << *q << "ChangeTo";
                 *q = order.at(i);
                 // std::cout << order.at(i) << std::endl;
-            } else {
+            } 
+            else
+            {
                 // std::cout << *list.begin() << "ChangeTo" << order.at(i)
                 //           << std::endl;
                 ram.setPage(0, order.at(i));
             }
         }
 
-    } else {
+    } 
+    else 
+    {
         // found
         // std::cout << "found" << *p << std::endl;
         int choose = p - arr.begin();
         auto z = ram.asList().begin();
-        for (int i = 0; i < choose; i++) {
+        for (int i = 0; i < choose; i++) 
+        {
             z++;
         }
         z->visited = false;
         auto &list = ram.asList();
-        for (auto &i : list) {
-            if (i.visited == true) {
+        for (auto &i : list) 
+        {
+            if (i.visited == true) 
+            {
                 i.visited = false;
             }
         }
